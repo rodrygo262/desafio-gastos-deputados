@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  post "gastos_deputados/upload", to: "gastos_deputados#upload"
+
+  resources :gastos_deputados, only: [:index, :show]
+
+  root "gastos_deputados#index"
 end
