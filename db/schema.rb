@@ -13,8 +13,8 @@
 ActiveRecord::Schema.define(version: 2022_07_22_192804) do
 
   create_table "deputados", force: :cascade do |t|
-    t.integer "id_externo"
-    t.string "nome_parlamentar"
+    t.integer "id_externo", null: false
+    t.string "nome_parlamentar", null: false
     t.string "cpf"
     t.string "numero_carteira_parlamentar"
     t.integer "legislatura"
