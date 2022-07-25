@@ -1,8 +1,9 @@
 class CreateDeputados < ActiveRecord::Migration[6.0]
   def change
-    create_table :deputados, id: :serial do |t|
+    create_table :deputados do |t|
       t.integer "id_externo"
       t.string "nome_parlamentar"
+      t.string "cpf"
       t.string "numero_carteira_parlamentar"
       t.integer "legislatura"
       t.string "sigla_uf"

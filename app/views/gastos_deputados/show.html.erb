@@ -1,4 +1,64 @@
 <p id="notice"><%= notice %></p>
+<div class="div-principal">
+  <div class="div-informativo">
+    <div class="div-cabecalho-informativo">
+      <h3> <%= @deputado.nome_parlamentar%> ( <%= @deputado.sigla_partido%> ) </h3>
+    </div>
+    <div class="perfil-deputado">
+      <div class="deputado-foto">
+        <%= image_tag "http://www.camara.leg.br/internet/deputado/bandep/#{@deputado.id_externo}.jpg" %>
+      </div>
+      <div class="dados-deputado">
+        <p>
+          CPF: <%= @deputado.cpf%>
+          </p>
+        <p>
+          Nº carteira parlamentar: <%= @deputado.numero_carteira_parlamentar%>
+        </p>
+        <p>
+          Maior despesa: <%= number_to_currency( @deputado.maior_despesa.valor_liquido.to_f, unit: "R$ ", separator: ",", delimiter: ".")%> - <%= link_to 'Visualizar', @deputado.maior_despesa.url_documento %>
+        </p>        
+      </div>    
+    </div>  
+  </div>  
 
-<%= link_to 'Edit', edit_gastos_deputado_path(@gastos_deputado) %> |
-<%= link_to 'Back', gastos_deputados_path %>
+  <div class="div-informativo">
+    <div class="div-cabecalho-informativo">
+      <h3>Despesas</h3>
+    </div>
+    <div class="div-corpo-informativo" style="overflow: auto;height: 450px;">
+      <table class="table-deputados">
+        <tr>
+          <th>
+            Data emissão
+          </th>
+          <th>
+            Estabelecimento
+          </th>
+          <th>
+            Valor
+          </th>
+          <th>
+            Opções
+          </th>
+        </tr>
+        <% @gastos_deputado.each do |gasto| %>
+          <tr>
+            <td class="aling-center">
+              <%= gasto.data_emissao%>
+            </td>
+            <td class="aling-center">
+              <%= gasto.fornecedor%>
+            </td>
+            <td class="aling-center">
+              <%= number_to_currency( gasto.valor_liquido.to_f, unit: "R$ ", separator: ",", delimiter: ".")%>
+            </td>
+            <td class="aling-center">
+              <%= link_to 'Visualizar', gasto.url_documento %>
+            </td>
+          </tr>
+        <% end %>
+      </table>      
+    </div>
+  </div>
+</div>

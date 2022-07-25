@@ -5,6 +5,7 @@ var importaButton = document.getElementById('realiza_importacao');
 form.onsubmit = function (event) {
   event.preventDefault();
 
+
   var files = arquivo.files;
   var formData = new FormData();
   var file = files[0];
@@ -27,6 +28,8 @@ form.onsubmit = function (event) {
   xhr.onload = function () {
     if (xhr.status === 200) {
       alert('Arquivo importado com sucesso.');
+
+      document.location.reload(true);
     } else {
       alert('Ocorreu algum erro na importação.');
     }

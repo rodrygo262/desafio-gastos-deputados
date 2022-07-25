@@ -1,18 +1,18 @@
 class CreateGastosDeputados < ActiveRecord::Migration[6.0]
   def change
-    create_table :subcota, id: :serial do |t|
+    create_table :subcota do |t|
       t.integer "id_externo"
       t.integer "descricao"
       t.timestamps
     end
 
-    create_table :especificacao, id: :serial do |t|
+    create_table :especificacao do |t|
       t.integer "id_externo"
       t.integer "descricao"
       t.timestamps
     end
 
-    create_table :gastos_deputados, id: :serial do |t|
+    create_table :gastos_deputados do |t|
       t.references :deputado, null: false, foreign_key: true
       t.references :subcota, null: false, foreign_key: true
       t.references :especificacao, null: false, foreign_key: true
@@ -34,6 +34,7 @@ class CreateGastosDeputados < ActiveRecord::Migration[6.0]
       t.string "numero_ressarcimento"
       t.string "valor_restituicao"
       t.string "id_solicitante"
+      t.string "url_documento"
       t.timestamps
     end
   end

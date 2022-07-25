@@ -1,10 +1,11 @@
 class GastosDeputadosController < ApplicationController
   protect_from_forgery except: :upload
   before_action :set_gastos_deputado, only: %i[ show edit update destroy ]
+  before_action :set_new_gastos_deputado, only: [:upload]
 
   # GET /gastos_deputados or /gastos_deputados.json
   def index
-    @gastos_deputados = GastosDeputado.all
+    @deputados = Deputado.all
   end
 
   # GET /gastos_deputados/1 or /gastos_deputados/1.json
@@ -12,14 +13,25 @@ class GastosDeputadosController < ApplicationController
   end
 
   def upload
-    # parei aqui
+    if GastosDeputado.realiza_importacao_base(
+      params[:arquivo_importacao]
+    )
+      render json: nil, status: :created
+    else
+      render json: nil, status: :unprocessable_entity
+    end
   end
 
   private
 
+  def set_new_gastos_deputado
+    @gastos_deputados = GastosDeputado.new
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_gastos_deputado
-    @gastos_deputado = GastosDeputado.find(params[:id])
+    @gastos_deputado = GastosDeputado.where(deputado_id: params[:id]).order(:data_emissao)
+    @deputado = Deputado.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

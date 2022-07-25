@@ -12,19 +12,62 @@
 
 ActiveRecord::Schema.define(version: 2022_07_22_192804) do
 
-# Could not dump table "deputados" because of following StandardError
-#   Unknown type 'serial' for column 'id'
+  create_table "deputados", force: :cascade do |t|
+    t.integer "id_externo"
+    t.string "nome_parlamentar"
+    t.string "cpf"
+    t.string "numero_carteira_parlamentar"
+    t.integer "legislatura"
+    t.string "sigla_uf"
+    t.string "sigla_partido"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
-# Could not dump table "especificacao" because of following StandardError
-#   Unknown type 'serial' for column 'id'
+  create_table "especificacao", force: :cascade do |t|
+    t.integer "id_externo"
+    t.integer "descricao"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
-# Could not dump table "gastos_deputados" because of following StandardError
-#   Unknown type 'serial' for column 'id'
+  create_table "gastos_deputados", force: :cascade do |t|
+    t.integer "deputado_id", null: false
+    t.integer "subcota_id", null: false
+    t.integer "especificacao_id", null: false
+    t.string "fornecedor"
+    t.string "cpf_cnpj"
+    t.string "numero_documento"
+    t.string "tipo_documento_fiscal"
+    t.date "data_emissao"
+    t.decimal "valor_documento"
+    t.decimal "valor_glosa"
+    t.decimal "valor_liquido"
+    t.integer "ano"
+    t.integer "mes"
+    t.integer "numero_parcela"
+    t.string "passageiro"
+    t.string "trecho"
+    t.string "lote"
+    t.string "numero_ressarcimento"
+    t.string "valor_restituicao"
+    t.string "id_solicitante"
+    t.string "url_documento"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deputado_id"], name: "index_gastos_deputados_on_deputado_id"
+    t.index ["especificacao_id"], name: "index_gastos_deputados_on_especificacao_id"
+    t.index ["subcota_id"], name: "index_gastos_deputados_on_subcota_id"
+  end
 
-# Could not dump table "subcota" because of following StandardError
-#   Unknown type 'serial' for column 'id'
+  create_table "subcota", force: :cascade do |t|
+    t.integer "id_externo"
+    t.integer "descricao"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   add_foreign_key "gastos_deputados", "deputados"
-  add_foreign_key "gastos_deputados", "especificacaos"
+  add_foreign_key "gastos_deputados", "especificacao"
   add_foreign_key "gastos_deputados", "subcota", column: "subcota_id"
 end

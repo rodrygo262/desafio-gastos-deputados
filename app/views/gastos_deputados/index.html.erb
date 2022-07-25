@@ -1,23 +1,75 @@
 <p id="notice"><%= notice %></p>
-
-<div class="titulo-div">
-  <h1>Listagem das despesas dos deputados</h1>
-</div>
-
-
-<% unless @gastos_deputados.present? %>
-  <div class="div-informativo-importacao">
-    <h3>A base ainda não foi importada, favor selecionar o arquivo csv e realizar a importação.</h3>
+<div class="div-principal">
+  <div class="titulo-div">
+    <h1>Listagem das despesas dos deputados</h1>
   </div>
 
-  <form id="form-arquivo" action="gastos_deputados/upload" method="post" enctype="multipart/form-data">
-    <div class="div-file">
-      <%= file_field_tag 'arquivo_csv', style: "width:80%;" %>
-      <input id="realiza_importacao" type="submit" id="submit" name="submit" value="Realizar importação" >
+
+  <div class="div-informativo">
+    <div class="div-cabecalho-informativo">
+      <h3>Selecione o arquivo para realizar a importação, ao finalizar a importação a tela será recarregada</h3>
     </div>
-        
-        
-    </form>
-<%end%>
+    <div class="div-corpo-informativo">
+      <form id="form-arquivo" action="gastos_deputados/upload" method="post" enctype="multipart/form-data">
+        <div class="div-file">
+          <%= file_field_tag 'arquivo_csv', style: "width:80%;" %>
+          <input id="realiza_importacao" type="submit" id="submit" name="submit" value="Realizar importação" >
+        </div>
+      </form>
+    </div>
+  </div>  
+
+  <div class="div-informativo">
+    <div class="div-cabecalho-informativo">
+      <h3>Deputados federais de Minas Gerais</h3>
+    </div>
+    <div class="div-corpo-informativo">
+      <table class="table-deputados">
+        <tr>
+          <th>
+            Nome
+          </th>
+          <th>
+            CPF
+          </th>
+          <th>
+            Nº carteira parlamentar
+          </th>
+          <th>
+            Partido
+          </th>
+          <th>
+            Total de gastos
+          </th>
+          <th>
+            Opções
+          </th>
+        </tr>
+        <% @deputados.each do |deputado| %>
+          <tr>
+            <td class="aling-center">
+              <%= deputado.nome_parlamentar%>
+            </td>
+            <td class="aling-center">
+              <%= deputado.cpf%>
+            </td>
+            <td class="aling-center">
+              <%= deputado.numero_carteira_parlamentar%>
+            </td>
+            <td class="aling-center">
+              <%= deputado.sigla_partido%>
+            </td>
+            <td class="aling-center">
+              <%= number_to_currency(deputado.total_gastos.to_f, unit: "R$ ", separator: ",", delimiter: ".")%>
+            </td>
+            <td class="aling-center">
+              <%= link_to 'Visualizar', gastos_deputado_path(deputado.id) %>
+            </td>
+          </tr>
+        <% end %>
+      </table>      
+    </div>
+  </div>
+</div>
 
 <%= javascript_pack_tag 'gastos_deputado'%>
